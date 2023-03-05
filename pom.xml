@@ -31,7 +31,7 @@
 	</build>
  <repositories>
     <repository>
-      <id>java-maven-app-group</id>
+      <id>java-maven-war-app-group</id>
       <url>http://172.31.16.8:8081/repository/java-maven-war-app-group/</url>
     </repository>
   </repositories>
