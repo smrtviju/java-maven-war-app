@@ -2,13 +2,13 @@ pipeline{
     agent any
 
     tools {
-        maven 'Maven_3.8.7'       
+        maven 'Maven_3.9.0'       
     }
 
     stages{
         stage('SCM Checkout'){
             steps{
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Git_Token', url: 'https://github.com/getyourdurga/java-maven-war-app.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], gitTool: 'Default', userRemoteConfigs: [[credentialsId: 'Git_token', url: 'https://github.com/smrtviju/java-maven-war-app.git']])
             }
             
         }
@@ -25,8 +25,8 @@ pipeline{
         //                 sh "${tool("Sonar 4.8")}/bin/sonar-scanner \
         //                 -Dsonar.projectKey=java-maven-app \
         //                 -Dsonar.java.binaries=target \
-        //                 -Dsonar.host.url=http://13.233.160.18:9000 \
-        //                 -Dsonar.login=sqp_56c17308dacebf6e90d4fadb0afc60b35056a9d5"
+        //                 -Dsonar.host.url=http://172.31.21.62:9000 \
+        //                 -Dsonar.login=sqp_ec570a382b3dde8332bdd86a728b1fb064ca63c8"
         //             }
         //     }
         // }

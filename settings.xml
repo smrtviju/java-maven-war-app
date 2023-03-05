@@ -7,12 +7,12 @@
     <server>
       <id>java-maven-app-snapshots</id>
       <username>admin</username>
-      <password>admin</password>
+      <password>mahaviju</password>
     </server>
     <server>
       <id>java-maven-app-releases</id>
       <username>admin</username>
-      <password>admin</password>
+      <password>mahaviju</password>
     </server>
   </servers>
 
