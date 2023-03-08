@@ -3,25 +3,39 @@
   hosts: all
   become: true
   vars:
-    nexus_url: http://65.0.54.66:8081/repository
-    repository_type: java-maven-app-releases
+    nexus_url: http://172.31.16.8:8081/repository
+    repository_type: simple-java-maven-app-releases
     group_id: com%2Fmycompany%2Fapp
     artifact_id: hello-world-war
     version: 1.0.0
     build_number: "{{build_number}}"
   tasks:
-  - name: Download file from a file path
-    ansible.builtin.get_url:
-      url: "{{nexus_url}}/{{repository_type}}/{{group_id}}%2F{{artifact_id}}%2F{{version}}-{{build_number}}%2F{{artifact_id}}-{{version}}-{{ build_number}}.war"
-      dest: /home/ec2-user
-      username: admin
-      password: admin
 
-  - name: Rename war file
-    ansible.builtin.shell: mv /home/ec2-user/{{group_id}}%2F{{artifact_id}}%2F{{version}}-{{build_number}}%2F{{artifact_id}}-{{version}}-{{ build_number}}.war /home/ec2-user/faangler.war
+   - name: install jdk
+     apt:
+      name: default-jdk
+      state: present
 
-  - name: Deploying artifact in webapps
-    ansible.builtin.shell: cp /home/ec2-user/faangler.war /home/ec2-user/apache-tomcat-9.0.72/webapps/faangler.war
+   - name: make a new directory
+     ansible.builtin.shell: mkdir tomcat
 
-  - name: remove the artifact
-    ansible.builtin.shell: "rm -rf cp /home/ec2-user/faangler.war"
+
+   - name: Start and Enable Tomcat
+     systemd:
+        name: tomcat
+        state: started
+
+     
+   - name: Download file from a file path
+     ansible.builtin.get_url:
+       url: "{{nexus_url}}/{{repository_type}}/{{group_id}}%2F{{artifact_id}}%2F{{version}}-{{build_number}}%2F{{artifact_id}}-{{version}}-{{ build_number}}.war"
+       dest: /home/ec2-user
+       username: admin
+       password: mahaviju
+
+
+   - name: Rename war file
+     ansible.builtin.shell: mv /home/ec2-user/{{group_id}}%2F{{artifact_id}}%2F{{version}}-{{build_number}}%2F{{artifact_id}}-{{version}}-{{ build_number}}.war /home/ec2-user/hello-world.war
+
+   - name: Deploying artifact in webapps
+     ansible.builtin.shell: cp /home/ec2-user/hello-world.war /home/ec2-user/apache-tomcat-9.0.72/webapps/hello-world.war   

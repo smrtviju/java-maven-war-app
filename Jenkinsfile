@@ -19,17 +19,17 @@ pipeline{
             }
         }
 
-        // stage('sonarqube'){
-        //     steps{
-        //         withSonarQubeEnv("SonarQube") {
-        //                 sh "${tool("Sonar 4.8")}/bin/sonar-scanner \
-        //                 -Dsonar.projectKey=java-maven-app \
-        //                 -Dsonar.java.binaries=target \
-        //                 -Dsonar.host.url=http://172.31.21.62:9000 \
-        //                 -Dsonar.login=sqp_ec570a382b3dde8332bdd86a728b1fb064ca63c8"
-        //             }
-        //     }
-        // }
+        stage('sonarqube'){
+             steps{
+                 withSonarQubeEnv("SonarQube") {
+                         sh "${tool("Sonar 4.8")}/bin/sonar-scanner \
+                         -Dsonar.projectKey=java-maven-app \
+                         -Dsonar.java.binaries=target \
+                         -Dsonar.host.url=http://172.31.21.62:9000 \
+                         -Dsonar.login=sqp_ec570a382b3dde8332bdd86a728b1fb064ca63c8"
+                     }
+             }
+         }
 
         stage('nexus-upload'){
             steps{
@@ -39,10 +39,10 @@ pipeline{
 
         stage("deployment"){
             agent{
-                label 'Ansible_Agent'
+                label 'ansi_control'
             }
             steps{
-                sh 'ansible-playbook -i inventory.yml deployment_playbook.yml -e "build_number=${BUILD_NUMBER}"'                
+                sh 'ansible-playbook -i inventory deployment_playbook.yml -e "build_number=${BUILD_NUMBER}"'                
             }
         }
     }
