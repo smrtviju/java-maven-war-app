@@ -39,7 +39,7 @@ pipeline{
 
         stage("deployment"){
             agent{
-                label 'ansi_control'
+                label 'Agent_node'
             }
             steps{
                 sh 'ansible-playbook -i inventory deployment_playbook.yml -e "build_number=${BUILD_NUMBER}"'           
