@@ -42,7 +42,7 @@ pipeline{
                 label 'ansi'
             }
             steps{
-                sh 'ansible-playbook -i my_inventory deployment_playbook.yml -e "build_number=${BUILD_NUMBER}"'           
+                sh 'ansible-playbook deployment_playbook.yml -i my_inventory -e "build_number=${BUILD_NUMBER}"'           
             }
         }
     }
